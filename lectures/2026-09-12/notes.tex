@@ -1,0 +1,553 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+\geometry{left=25mm,right=20mm,top=22mm,bottom=24mm}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!45!black,
+  urlcolor=blue!55!black
+}
+\setlist{nosep}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0.15em}
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{proposition}{Утверждение}
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}
+\theoremstyle{remark}
+\newtheorem*{remark}{Замечание}
+
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\cond}{cond}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+
+\title{Свёртки на группе $\ZZ_n$}
+\author{Конспект лекции}
+\date{12 сентября}
+
+\begin{document}
+
+\maketitle
+
+\section{Группа вычетов и рабочее пространство}
+
+Группа вычетов по модулю $n$ имеет вид
+\[
+  \ZZ_n=\{0,1,\dots,n-1\}.
+\]
+Сложение и умножение выполняются как обычно, после чего берётся остаток от
+деления на $n$. В лекции рассматриваются векторы из $\CC^n$; их координаты
+удобно нумеровать с нуля:
+\[
+  x=(x_0,x_1,\dots,x_{n-1})^{\mathsf T}.
+\]
+Именно такая нумерация естественна для циклических сдвигов и вычислений по
+модулю $n$.
+
+\section{Матрица циклического сдвига}
+
+\begin{definition}
+Матрицей циклического сдвига называется матрица
+\[
+  V=
+  \begin{pmatrix}
+    0      & 0      & \cdots & 0      & 1\\
+    1      & 0      & \cdots & 0      & 0\\
+    0      & 1      & \ddots & \vdots & \vdots\\
+    \vdots & \ddots & \ddots & 0      & 0\\
+    0      & \cdots & 0      & 1      & 0
+  \end{pmatrix}\in\CC^{n\times n}.
+\]
+\end{definition}
+
+При умножении на вектор она циклически сдвигает координаты на одну позицию:
+\[
+  Vx=(x_{n-1},x_0,x_1,\dots,x_{n-2})^{\mathsf T}.
+\]
+Аналогично $V^r$ выполняет циклический сдвиг на $r$ позиций. В частности,
+\[
+  V^n=I.
+\]
+
+\section{Спектр циклического сдвига}
+
+Рассмотрим множество корней $n$-й степени из единицы
+\[
+  E_n=\{\eps_0,\eps_1,\dots,\eps_{n-1}\},
+  \qquad
+  \eps_k=e^{2\pi i k/n}
+  =\cos\frac{2\pi k}{n}+i\sin\frac{2\pi k}{n}.
+\]
+Эти числа лежат на единичной окружности и образуют вершины правильного
+$n$-угольника. Для них выполнено
+\[
+  \eps_k^n=1,
+  \qquad k=0,1,\dots,n-1.
+\]
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=2.15]
+    \draw[->,gray!75] (-1.25,0) -- (1.48,0);
+    \draw[->,gray!75] (0,-1.20) -- (0,1.34);
+    \node[below right] at (1.24,-0.02) {$\operatorname{Re}z$};
+    \node[above left] at (-0.02,1.20) {$\operatorname{Im}z$};
+    \draw[thick] (0,0) circle (1);
+    \draw[blue!45,thick]
+      (0:1) -- (45:1) -- (90:1) -- (135:1) --
+      (180:1) -- (225:1) -- (270:1) -- (315:1) -- cycle;
+    \foreach \angle in {0,45,...,315}
+      \fill[blue!65!black] (\angle:1) circle (0.035);
+    \draw[->,blue!65!black,thick] (0,0) -- (45:1);
+    \draw[blue!65!black] (0.32,0)
+      arc[start angle=0,end angle=45,radius=0.32];
+    \node[blue!65!black] at (22.5:0.48) {$\frac{2\pi}{8}$};
+    \node[above right] at (0:1) {$\eps_0=1$};
+    \node[above right] at (45:1) {$\eps_1$};
+    \node[above] at (90:1) {$\eps_2$};
+    \node[below right] at (315:1) {$\eps_7$};
+    \node[below left] at (-0.08,-1.08) {$|z|=1$};
+  \end{tikzpicture}
+  \caption{Корни восьмой степени из единицы как пример множества $E_n$}
+\end{figure}
+
+\begin{theorem}
+Спектр матрицы циклического сдвига совпадает с множеством корней $n$-й
+степени из единицы:
+\[
+  \Sp(V)=E_n.
+\]
+\end{theorem}
+
+\begin{proof}
+В соглашениях лекции характеристический многочлен записывается как
+\[
+  \varphi_V(\lambda)=\det(V-\lambda I).
+\]
+Вычтем $\lambda$ из каждого диагонального элемента матрицы $V$:
+\[
+  V-\lambda I=
+  \begin{pmatrix}
+    -\lambda & 0        & 0        & \cdots & 0        & 1\\
+    1        & -\lambda & 0        & \cdots & 0        & 0\\
+    0        & 1        & -\lambda & \ddots & \vdots   & \vdots\\
+    \vdots   & \ddots   & \ddots   & \ddots & 0        & 0\\
+    0        & \cdots   & 0        & 1      & -\lambda & 0\\
+    0        & \cdots   & \cdots   & 0      & 1        & -\lambda
+  \end{pmatrix}.
+\]
+В первой строке этой матрицы ненулевыми являются только элементы
+$a_{11}=-\lambda$ и $a_{1n}=1$. Поэтому разложение Лапласа по первой строке
+содержит ровно два слагаемых:
+\[
+  \det(V-\lambda I)
+  =(-\lambda)(-1)^{1+1}\det M_{11}
+   +1\cdot(-1)^{1+n}\det M_{1n},
+\]
+где $M_{1j}$ --- минор, полученный удалением первой строки и $j$-го
+столбца.
+
+Первый минор является нижней треугольной матрицей:
+\[
+  M_{11}=
+  \begin{pmatrix}
+    -\lambda & 0        & \cdots & 0\\
+    1        & -\lambda & \ddots & \vdots\\
+    \vdots   & \ddots   & \ddots & 0\\
+    0        & \cdots   & 1      & -\lambda
+  \end{pmatrix},
+  \qquad
+  \det M_{11}=\underbrace{(-\lambda)\cdots(-\lambda)}_{n-1}
+  =(-\lambda)^{n-1}.
+\]
+Второй минор является верхней треугольной матрицей с единицами на главной
+диагонали:
+\[
+  M_{1n}=
+  \begin{pmatrix}
+    1      & -\lambda & 0        & \cdots & 0\\
+    0      & 1        & -\lambda & \ddots & \vdots\\
+    \vdots & \ddots   & \ddots   & \ddots & 0\\
+    0      & \cdots   & 0        & 1      & -\lambda\\
+    0      & \cdots   & \cdots   & 0      & 1
+  \end{pmatrix},
+  \qquad
+  \det M_{1n}=\underbrace{1\cdot1\cdots1}_{n-1}=1.
+\]
+Подставляя найденные определители миноров, получаем
+\begin{align*}
+  \varphi_V(\lambda)
+  &=(-\lambda)(-\lambda)^{n-1}
+    +(-1)^{n+1}\cdot1\\
+  &=(-1)^n\lambda^n+(-1)^{n+1}\\
+  &=(-1)^n(\lambda^n-1).
+\end{align*}
+Следовательно,
+\[
+  \varphi_V(\lambda)=0
+  \quad\Longleftrightarrow\quad
+  \lambda^n=1
+  \quad\Longleftrightarrow\quad
+  \lambda\in E_n.
+\]
+\end{proof}
+
+\section{Собственные векторы и дискретное преобразование Фурье}
+
+Напомним: если $Av=\lambda v$ и $v\ne0$, то $\lambda$ называется
+собственным числом, а $v$ --- соответствующим собственным вектором.
+
+\begin{theorem}
+Собственному числу $\lambda=\eps_k$ матрицы $V$ соответствует собственный
+вектор
+\[
+  v_k=
+  \begin{pmatrix}
+    1 & \eps_k^{-1} & \eps_k^{-2} & \cdots &
+    \eps_k^{-(n-1)}
+  \end{pmatrix}^{\mathsf T}.
+\]
+\end{theorem}
+
+\begin{proof}
+Решим систему
+\[
+  (V-\eps_k I)x=0.
+\]
+В матричном виде она записывается следующим образом:
+\[
+  \begin{pmatrix}
+    -\eps_k & 0       & 0       & \cdots & 0       & 1\\
+    1       & -\eps_k & 0       & \cdots & 0       & 0\\
+    0       & 1       & -\eps_k & \ddots & \vdots  & \vdots\\
+    \vdots  & \ddots  & \ddots  & \ddots & 0       & 0\\
+    0       & \cdots  & 0       & 1      & -\eps_k & 0\\
+    0       & \cdots  & \cdots  & 0      & 1       & -\eps_k
+  \end{pmatrix}
+  \begin{pmatrix}
+    x_0\\ x_1\\ x_2\\ \vdots\\ x_{n-2}\\ x_{n-1}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    0\\0\\0\\\vdots\\0\\0
+  \end{pmatrix}.
+\]
+
+Поскольку $\eps_k\in\Sp(V)$, по Теореме~1
+\[
+  \det(V-\eps_k I)=0.
+\]
+Значит, все $n$ строк матрицы $V-\eps_kI$ линейно зависимы. Покажем при
+этом, что последние $n-1$ строк линейно независимы. Ограничим их первыми
+$n-1$ столбцами. Получится квадратная матрица
+\[
+  B=
+  \begin{pmatrix}
+    1      & -\eps_k & 0        & \cdots & 0\\
+    0      & 1       & -\eps_k  & \ddots & \vdots\\
+    \vdots & \ddots  & \ddots   & \ddots & 0\\
+    0      & \cdots  & 0        & 1      & -\eps_k\\
+    0      & \cdots  & \cdots   & 0      & 1
+  \end{pmatrix}.
+\]
+Она верхняя треугольная, поэтому
+\[
+  \det B=1\cdot1\cdots1=1\ne0.
+\]
+Следовательно, строки $B$, а значит, и соответствующие строки исходной
+матрицы, линейно независимы. Это можно увидеть и непосредственно: если их
+линейная комбинация с коэффициентами $c_1,\dots,c_{n-1}$ равна нулю, то из
+первого столбца следует $c_1=0$, из второго --- $c_2=0$, и так далее, пока
+не получим $c_1=\dots=c_{n-1}=0$.
+
+Итак, ранг матрицы не меньше $n-1$. С другой стороны, её определитель равен
+нулю, поэтому ранг меньше $n$. Следовательно,
+\[
+  \operatorname{rank}(V-\eps_kI)=n-1,
+\]
+а первая строка является линейной комбинацией остальных. При решении системы
+её можно временно отбросить.
+
+Положим $x_0=1$. Уравнения, отвечающие строкам со второй по последнюю,
+имеют вид
+\[
+  x_0-\eps_kx_1=0,\qquad
+  x_1-\eps_kx_2=0,\qquad\dots,\qquad
+  x_{n-2}-\eps_kx_{n-1}=0.
+\]
+Поскольку $\eps_k\ne0$, отсюда последовательно получаем
+\[
+  x_1=\eps_k^{-1},\quad x_2=\eps_k^{-2},\quad\dots,\quad
+  x_{n-1}=\eps_k^{-(n-1)}.
+\]
+Осталось проверить отброшенное первое уравнение
+$-\eps_kx_0+x_{n-1}=0$. После подстановки найденных координат его левая
+часть равна
+\[
+  -\eps_k+\eps_k^{-(n-1)}
+  =\eps_k^{-(n-1)}(1-\eps_k^n)=0,
+\]
+поскольку $\eps_k^n=1$. Таким образом, найденный ненулевой вектор
+действительно является решением всей системы.
+\end{proof}
+
+Собственные числа $\eps_0,\dots,\eps_{n-1}$ попарно различны, поэтому
+соответствующие собственные векторы линейно независимы и образуют базис
+пространства $\CC^n$:
+\[
+  v_0=(1,1,\dots,1)^{\mathsf T},\qquad
+  v_1=(1,\eps_1^{-1},\dots,\eps_1^{-(n-1)})^{\mathsf T},\quad\dots
+\]
+
+Матрица, составленная из этих векторов-столбцов,
+\[
+  F=(v_0\ v_1\ \cdots\ v_{n-1})
+   =\begin{pmatrix}
+      1 & 1 & \cdots & 1\\
+      1 & \eps_1^{-1} & \cdots & \eps_{n-1}^{-1}\\
+      \vdots & \vdots & \ddots & \vdots\\
+      1 & \eps_1^{-(n-1)} & \cdots & \eps_{n-1}^{-(n-1)}
+    \end{pmatrix},
+\]
+называется матрицей дискретного преобразования Фурье.
+
+Переход к базису из собственных векторов диагонализует $V$:
+\[
+  F^{-1}VF=\diag(\eps_0,\eps_1,\dots,\eps_{n-1}),
+\]
+или, что то же самое,
+\[
+  V=F\diag(\eps_0,\eps_1,\dots,\eps_{n-1})F^{-1}.
+\]
+
+\section{Циклические матрицы и их символы}
+
+Циклическая матрица с первым столбцом $(a_0,a_1,\dots,a_{n-1})^{\mathsf T}$
+имеет вид
+\[
+  A=
+  \begin{pmatrix}
+    a_0     & a_{n-1} & a_{n-2} & \cdots & a_1\\
+    a_1     & a_0     & a_{n-1} & \cdots & a_2\\
+    a_2     & a_1     & a_0     & \ddots & \vdots\\
+    \vdots  & \vdots  & \ddots  & \ddots & a_{n-1}\\
+    a_{n-1} & a_{n-2} & \cdots  & a_1    & a_0
+  \end{pmatrix}.
+\]
+
+\begin{definition}
+Многочлен
+\[
+  a(t)=a_0+a_1t+a_2t^2+\dots+a_{n-1}t^{n-1}
+\]
+называется \emph{символом} циклической матрицы $A$.
+\end{definition}
+
+\begin{theorem}
+Для циклической матрицы $A$ с символом $a(t)$ выполнено
+\[
+  A=a(V)=a_0E+a_1V+a_2V^2+\dots+a_{n-1}V^{n-1},
+\]
+где $E=I_n$ --- единичная матрица.
+\end{theorem}
+
+\begin{proof}
+Посмотрим последовательно на степени матрицы сдвига. Нулевая степень есть
+единичная матрица:
+\[
+  V^0=E=
+  \begin{pmatrix}
+    1&0&0&\cdots&0\\
+    0&1&0&\cdots&0\\
+    0&0&1&\ddots&\vdots\\
+    \vdots&\vdots&\ddots&\ddots&0\\
+    0&0&\cdots&0&1
+  \end{pmatrix}.
+\]
+Первая и вторая степени имеют вид
+\[
+  V=
+  \begin{pmatrix}
+    0&0&\cdots&0&1\\
+    1&0&\cdots&0&0\\
+    0&1&\ddots&\vdots&\vdots\\
+    \vdots&\ddots&\ddots&0&0\\
+    0&\cdots&0&1&0
+  \end{pmatrix},
+  \qquad
+  V^2=
+  \begin{pmatrix}
+    0&0&\cdots&1&0\\
+    0&0&\cdots&0&1\\
+    1&0&\cdots&0&0\\
+    0&1&\ddots&\vdots&\vdots\\
+    \vdots&\ddots&\ddots&0&0
+  \end{pmatrix}.
+\]
+Матрица $V$ сдвигает координаты на одну позицию, $V^2$ --- на две, и в
+общем случае $V^r$ --- на $r$ позиций. Последняя различная степень сдвига
+равна
+\[
+  V^{n-1}=V^{-1}=
+  \begin{pmatrix}
+    0&1&0&\cdots&0\\
+    0&0&1&\ddots&\vdots\\
+    \vdots&\ddots&\ddots&\ddots&0\\
+    0&\cdots&0&0&1\\
+    1&0&\cdots&0&0
+  \end{pmatrix},
+  \qquad V^n=E.
+\]
+
+Это можно записать точно через стандартный базис
+$e_0,e_1,\dots,e_{n-1}$:
+\[
+  V^re_j=e_{(j+r)\bmod n}.
+\]
+Следовательно, при нумерации строк и столбцов от $0$ до $n-1$
+\[
+  (V^r)_{ij}=
+  \begin{cases}
+    1, & i-j\equiv r\pmod n,\\
+    0, & i-j\not\equiv r\pmod n.
+  \end{cases}
+\]
+В каждой позиции $(i,j)$ ровно одна из матриц
+$E,V,V^2,\dots,V^{n-1}$ содержит единицу: это матрица $V^r$ с
+$r=(i-j)\bmod n$. Поэтому элемент суммы
+\[
+  a_0E+a_1V+a_2V^2+\dots+a_{n-1}V^{n-1}
+\]
+в позиции $(i,j)$ равен
+\[
+  a_{(i-j)\bmod n}.
+\]
+Значит, вся сумма имеет вид
+\[
+  \begin{pmatrix}
+    a_0     & a_{n-1} & a_{n-2} & \cdots & a_1\\
+    a_1     & a_0     & a_{n-1} & \cdots & a_2\\
+    a_2     & a_1     & a_0     & \ddots & \vdots\\
+    \vdots  & \vdots  & \ddots  & \ddots & a_{n-1}\\
+    a_{n-1} & a_{n-2} & \cdots  & a_1    & a_0
+  \end{pmatrix}=A.
+\]
+По определению символа правая часть исходного равенства есть именно
+$a(V)$, что и требовалось доказать.
+\end{proof}
+
+\section{Теорема об отображении спектра}
+
+\begin{theorem}[об отображении спектра]
+Пусть $A$ --- линейный оператор в конечномерном комплексном пространстве,
+а $p(t)$ --- произвольный многочлен. Тогда
+\[
+  \Sp\bigl(p(A)\bigr)=p\bigl(\Sp(A)\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+Докажем два включения.
+
+\smallskip
+\noindent
+\emph{Первое включение.}
+Пусть $\lambda_0\in\Sp(A)$. Тогда существует $v_0\ne0$ такое, что
+\[
+  Av_0=\lambda_0v_0.
+\]
+Следовательно, $A^rv_0=\lambda_0^rv_0$ для всех $r\geqslant0$. Если
+\[
+  p(t)=c_0+c_1t+\dots+c_mt^m,
+\]
+то после умножения этих равенств на коэффициенты $c_r$ и сложения получаем
+\[
+  p(A)v_0=p(\lambda_0)v_0.
+\]
+Значит, $p(\lambda_0)\in\Sp(p(A))$, и потому
+\[
+  p(\Sp(A))\subseteq\Sp(p(A)).
+\]
+
+\smallskip
+\noindent
+\emph{Обратное включение.}
+Пусть $\mu\in\Sp(p(A))$. Тогда матрица $p(A)-\mu I$ необратима. Над полем
+$\CC$ многочлен $p(t)-\mu$ раскладывается на линейные множители:
+\[
+  p(t)-\mu=c_m(t-t_1)(t-t_2)\cdots(t-t_m).
+\]
+Поэтому
+\[
+  p(A)-\mu I
+  =c_m(A-t_1I)(A-t_2I)\cdots(A-t_mI).
+\]
+Здесь достаточно рассмотреть неконстантный $p$: для постоянного многочлена
+утверждение очевидно.
+Если произведение матриц необратимо, то хотя бы один из множителей
+$A-t_kI$ необратим. Следовательно, $t_k\in\Sp(A)$. Кроме того,
+$p(t_k)-\mu=0$, то есть $\mu=p(t_k)$. Значит,
+\[
+  \Sp(p(A))\subseteq p(\Sp(A)).
+\]
+Оба включения доказаны.
+\end{proof}
+
+\section{Темы докладов}
+
+\subsection{Нормы матриц}
+
+Необходимо рассмотреть три подчинённые матричные нормы:
+\begin{align*}
+  \norm{A}_1
+    &=\max_{1\leqslant j\leqslant n}\sum_{i=1}^{n}|a_{ij}|,
+    &&\text{максимальная сумма модулей по столбцам},\\
+  \norm{A}_{\infty}
+    &=\max_{1\leqslant i\leqslant n}\sum_{j=1}^{n}|a_{ij}|,
+    &&\text{максимальная сумма модулей по строкам},\\
+  \norm{A}_2
+    &=\sqrt{\lambda_{\max}(A^*A)},
+    &&\text{спектральная норма}.
+\end{align*}
+Требуется доказать оценку
+\[
+  \boxed{\norm{A}_2\leqslant
+  \sqrt{\norm{A}_1\norm{A}_{\infty}}}.
+\]
+
+\subsection{Число обусловленности матрицы}
+
+Для обратимой матрицы $A$ число обусловленности относительно выбранной
+матричной нормы определяется формулой
+\[
+  \cond(A)=\norm{A}\,\norm{A^{-1}}.
+\]
+В докладе нужно объяснить:
+\begin{itemize}
+  \item как при решении системы $Ax=b$ погрешности $A$ и $b$ влияют на
+        относительную погрешность решения $x$;
+  \item почему величина $\cond(A)$ служит коэффициентом усиления этих
+        погрешностей;
+  \item почему матрицы с большим числом обусловленности называются плохо
+        обусловленными;
+  \item почему проблема обусловленности возникает не только у матриц
+        большого размера.
+\end{itemize}
+
+\end{document}
