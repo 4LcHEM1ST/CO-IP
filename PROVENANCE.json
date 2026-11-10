@@ -1,10 +1,10 @@
 {
   "target": "/home/a4lchem1st/files_v2/Masters/CO&IP",
   "sources": [
-    "/home/a4lchem1st/files_v2/.staging/masters/desktop/CO&IP",
+    "C:/Users/Anatoliy/Desktop/Masters/CO&IP",
     "/home/a4lchem1st/files/Masters/COIP"
   ],
-  "baseline": "/home/a4lchem1st/files_v2/.staging/masters/desktop/CO&IP",
+  "baseline": "C:/Users/Anatoliy/Desktop/Masters/CO&IP",
   "source_git_head": "3ca8441ffd6fd6ef42497b24cf0d0ee392049a07",
   "baseline_commit": "ad04d911c20471391ad44a8a54820d19a796c7d3",
   "review_branches": [],
@@ -20,7 +20,9 @@
     "source_files_copied": 16,
     "readme_provenance_count": 2,
     "changed_during_copy": [],
-    "runs": "No project code, training or tests executed"
+    "runs": "No project code, training or tests executed",
+    "fsck": "dangling tree 8e0c3dcace7f20935113cceb3395e263e1b3e514",
+    "working_tree_clean": true
   },
   "excluded": [
     "reproducible environments and caches",
@@ -31,8 +33,7 @@
     "external data remain at referenced locations",
     "source retirement after reconciliation"
   ],
-  "unresolved": [
-    "origin not identified; no repository published"
-  ],
-  "data_links_count": 4
+  "unresolved": [],
+  "data_links_count": 4,
+  "main_commit": "52f397b807262c1e230208becba1795ce27aeff6"
 }

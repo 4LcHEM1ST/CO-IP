@@ -18,8 +18,8 @@
 ## Происхождение и разбор files_v2
 
 Дата сверки: 2026-11-10. Основной рабочий каталог: `/home/a4lchem1st/files_v2/Masters/CO&IP`.
-Исходный файл: `/home/a4lchem1st/files_v2/.staging/masters/desktop/CO&IP/lectures/2026-09-12/README.md`.
-Основа проекта: `/home/a4lchem1st/files_v2/.staging/masters/desktop/CO&IP`; исходный Git HEAD: `3ca8441ffd6fd6ef42497b24cf0d0ee392049a07`.
+Исходный файл: `C:/Users/Anatoliy/Desktop/Masters/CO&IP/lectures/2026-09-12/README.md`.
+Основа проекта: `C:/Users/Anatoliy/Desktop/Masters/CO&IP`; исходный Git HEAD: `3ca8441ffd6fd6ef42497b24cf0d0ee392049a07`.
 Это учебная/исследовательская рабочая версия; действующий прод не был подтверждён. Приложения, обучение, платные вызовы и миграции не запускались.
 Другие источники и отличия: `/home/a4lchem1st/files/Masters/COIP` → `совпадает по выбранным файлам`.
 Секреты и полный контекст исключены из Git; закрытые материалы и внешние данные связаны через `DATA_LINKS.json`. Источники не удалены.
