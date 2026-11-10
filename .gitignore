@@ -17,3 +17,24 @@ desktop.ini
 # Local tooling
 .tools/
 
+
+## files_v2: external data and private material
+.venv*/
+venv/
+node_modules/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.runtime/
+.env
+.env.*
+!.env.example
+!.env.template
+*.key
+*.pem
+/lectures/2026-09-12/assets/audio/01.m4a
+/lectures/2026-09-12/assets/audio/02.m4a
+/lectures/2026-09-12/assets/audio/03.m4a
+/references/gokhberg-its-feldman-equations-in-convolutions-and-projection-methods.pdf
