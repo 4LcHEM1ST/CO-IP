@@ -1,0 +1,22 @@
+{
+  "lectures/2026-09-12/assets/audio/01.m4a": {
+    "target": "/home/a4lchem1st/files/Masters/COIP/lectures/2026-09-12/assets/audio/01.m4a",
+    "kind": "data",
+    "source": "/home/a4lchem1st/files/Masters/COIP/lectures/2026-09-12/assets/audio/01.m4a"
+  },
+  "lectures/2026-09-12/assets/audio/02.m4a": {
+    "target": "/home/a4lchem1st/files/Masters/COIP/lectures/2026-09-12/assets/audio/02.m4a",
+    "kind": "data",
+    "source": "/home/a4lchem1st/files/Masters/COIP/lectures/2026-09-12/assets/audio/02.m4a"
+  },
+  "lectures/2026-09-12/assets/audio/03.m4a": {
+    "target": "/home/a4lchem1st/files/Masters/COIP/lectures/2026-09-12/assets/audio/03.m4a",
+    "kind": "data",
+    "source": "/home/a4lchem1st/files/Masters/COIP/lectures/2026-09-12/assets/audio/03.m4a"
+  },
+  "references/gokhberg-its-feldman-equations-in-convolutions-and-projection-methods.pdf": {
+    "target": "/home/a4lchem1st/files/Masters/COIP/references/gokhberg-its-feldman-equations-in-convolutions-and-projection-methods.pdf",
+    "kind": "data",
+    "source": "/home/a4lchem1st/files/Masters/COIP/references/gokhberg-its-feldman-equations-in-convolutions-and-projection-methods.pdf"
+  }
+}
